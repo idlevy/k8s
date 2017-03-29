@@ -1,0 +1,29 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  name: logic-game
+spec:
+  replicas: 1
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        service: logic-game
+    spec:
+      containers:
+      - env:
+        - name: NG_MYSQL_URL
+          value: jdbc:mysql://mysql:3306
+        - name: NG_MYSQL_USER_NAME
+          value: root
+        - name: NG_MYSQL_PASSWORD
+          value: password
+        - name: NG_ACTIVEMQ_URL
+          value: failover:(tcp://activemqurl:61616)
+        image: eu.gcr.io/anakatech/logic-game:release-3.0.0-144
+        name: logic-game
+        resources: {}
+      restartPolicy: Always
+status: {}

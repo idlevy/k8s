@@ -1,0 +1,49 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  name: ng-server
+spec:
+  replicas: 1
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        service: ng-server
+    spec:
+      containers:
+      - env:
+        - name: NG_ACTIVEMQ_AMQP_URL
+          value: amqp://admin:admin@activemqurl:61616
+        - name: NG_MYSQL_URL
+          value: jdbc:mysql://mysql:3306
+        - name: NG_MYSQL_USER_NAME
+          value: root
+        - name: NG_MYSQL_PASSWORD
+          value: password
+        - name: NG_PLAYER_URL
+          value: http://logic-player:8080
+        - name: GS_API_URL
+          value: http://www.winomania.localhost/gs
+        - name: GS_BRAND_ID
+          value: "7"
+        - name: GS_CUSTOMER_ID
+          value: "100"
+        - name: GS_LEANDER_API_URL
+          value: https://assets.elf.leandergames.com/launcher/GameManager.php
+        - name: GS_LEANDER_PROVIDER_ID
+          value: "1"
+        - name: GS_LEANDER_SITE_ID
+          value: netomediang
+        - name: GS_LOBBY_URL
+          value: http://www.winomania.localhost
+        - name: GS_PROVIDER_ID
+          value: "0"
+        - name: GS_SERVER_URL
+          value: http://logic-game:8080
+        image: eu.gcr.io/anakatech/ng-server:1128
+        name: ng-server
+        resources: {}
+      restartPolicy: Always
+status: {}

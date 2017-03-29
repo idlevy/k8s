@@ -1,0 +1,27 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  name: activemq
+spec:
+  replicas: 1
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        service: activemq
+    spec:
+      containers:
+      - env:
+        - name: ACTIVEMQ_ADMIN_PASSWORD
+          value: '""'
+        - name: ACTIVEMQ_ADMIN_LOGIN
+          value: '""'
+        image: webcenter/activemq:5.14.3
+        name: activemq
+        ports:
+        - containerPort: 61616
+        resources: {}
+      restartPolicy: Always
+status: {}

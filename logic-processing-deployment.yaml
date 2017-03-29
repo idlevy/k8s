@@ -1,0 +1,27 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  name: logic-processing
+spec:
+  replicas: 1
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        service: logic-processing
+    spec:
+      containers:
+      - env:
+        - name: NG_MYSQL_URL
+          value: jdbc:mysql://mysql:3306
+        - name: NG_MYSQL_USER_NAME
+          value: root
+        - name: NG_MYSQL_PASSWORD
+          value: password
+        image: eu.gcr.io/anakatech/logic-processing:release-0.0.3-114
+        name: logic-processing
+        resources: {}
+      restartPolicy: Always
+status: {}

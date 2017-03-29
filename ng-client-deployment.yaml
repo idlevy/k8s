@@ -1,0 +1,23 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  name: ng-client
+spec:
+  replicas: 1
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        service: ng-client
+    spec:
+      containers:
+      - env:
+        - name: NODE_ENV
+          value: QA
+        image: eu.gcr.io/anakatech/ng-client:3254
+        name: ng-client
+        resources: {}
+      restartPolicy: Always
+status: {}

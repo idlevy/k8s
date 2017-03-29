@@ -1,0 +1,269 @@
+apiVersion: v1
+items:
+- apiVersion: v1
+  kind: Service
+  metadata:
+    creationTimestamp: 2017-03-28T11:26:07Z
+    labels:
+      service: activemq
+    name: activemq
+    namespace: default
+    resourceVersion: "22977"
+    selfLink: /api/v1/namespaces/default/services/activemq
+    uid: 5659d9c6-13a9-11e7-8721-42010a840ff8
+  spec:
+    clusterIP: 10.175.244.68
+    ports:
+    - name: "61616"
+      port: 61616
+      protocol: TCP
+      targetPort: 61616
+    selector:
+      service: activemq
+    sessionAffinity: None
+    type: ClusterIP
+  status:
+    loadBalancer: {}
+- apiVersion: v1
+  kind: Service
+  metadata:
+    creationTimestamp: 2017-03-28T05:45:47Z
+    labels:
+      component: apiserver
+      provider: kubernetes
+    name: kubernetes
+    namespace: default
+    resourceVersion: "10"
+    selfLink: /api/v1/namespaces/default/services/kubernetes
+    uid: caba6c97-1379-11e7-8721-42010a840ff8
+  spec:
+    clusterIP: 10.175.240.1
+    ports:
+    - name: https
+      port: 443
+      protocol: TCP
+      targetPort: 443
+    sessionAffinity: ClientIP
+    type: ClusterIP
+  status:
+    loadBalancer: {}
+- apiVersion: v1
+  kind: Service
+  metadata:
+    creationTimestamp: 2017-03-28T11:26:46Z
+    labels:
+      service: logic-admin
+    name: logic-admin
+    namespace: default
+    resourceVersion: "23028"
+    selfLink: /api/v1/namespaces/default/services/logic-admin
+    uid: 6d9cfa8c-13a9-11e7-8721-42010a840ff8
+  spec:
+    clusterIP: None
+    ports:
+    - name: headless
+      port: 55555
+      protocol: TCP
+      targetPort: 55555
+    selector:
+      service: logic-admin
+    sessionAffinity: None
+    type: ClusterIP
+  status:
+    loadBalancer: {}
+- apiVersion: v1
+  kind: Service
+  metadata:
+    creationTimestamp: 2017-03-28T11:26:35Z
+    labels:
+      service: logic-admin-ui
+    name: logic-admin-ui
+    namespace: default
+    resourceVersion: "23015"
+    selfLink: /api/v1/namespaces/default/services/logic-admin-ui
+    uid: 67245ccd-13a9-11e7-8721-42010a840ff8
+  spec:
+    clusterIP: None
+    ports:
+    - name: headless
+      port: 55555
+      protocol: TCP
+      targetPort: 55555
+    selector:
+      service: logic-admin-ui
+    sessionAffinity: None
+    type: ClusterIP
+  status:
+    loadBalancer: {}
+- apiVersion: v1
+  kind: Service
+  metadata:
+    creationTimestamp: 2017-03-28T11:27:27Z
+    labels:
+      service: logic-game
+    name: logic-game
+    namespace: default
+    resourceVersion: "23083"
+    selfLink: /api/v1/namespaces/default/services/logic-game
+    uid: 85b61df0-13a9-11e7-8721-42010a840ff8
+  spec:
+    clusterIP: None
+    ports:
+    - name: headless
+      port: 55555
+      protocol: TCP
+      targetPort: 55555
+    selector:
+      service: logic-game
+    sessionAffinity: None
+    type: ClusterIP
+  status:
+    loadBalancer: {}
+- apiVersion: v1
+  kind: Service
+  metadata:
+    creationTimestamp: 2017-03-28T11:27:07Z
+    labels:
+      service: logic-player
+    name: logic-player
+    namespace: default
+    resourceVersion: "23057"
+    selfLink: /api/v1/namespaces/default/services/logic-player
+    uid: 79c008d3-13a9-11e7-8721-42010a840ff8
+  spec:
+    clusterIP: 10.175.254.193
+    ports:
+    - name: "8083"
+      port: 8083
+      protocol: TCP
+      targetPort: 8080
+    selector:
+      service: logic-player
+    sessionAffinity: None
+    type: ClusterIP
+  status:
+    loadBalancer: {}
+- apiVersion: v1
+  kind: Service
+  metadata:
+    creationTimestamp: 2017-03-28T11:26:58Z
+    labels:
+      service: logic-processing
+    name: logic-processing
+    namespace: default
+    resourceVersion: "23046"
+    selfLink: /api/v1/namespaces/default/services/logic-processing
+    uid: 746d3bb5-13a9-11e7-8721-42010a840ff8
+  spec:
+    clusterIP: None
+    ports:
+    - name: headless
+      port: 55555
+      protocol: TCP
+      targetPort: 55555
+    selector:
+      service: logic-processing
+    sessionAffinity: None
+    type: ClusterIP
+  status:
+    loadBalancer: {}
+- apiVersion: v1
+  kind: Service
+  metadata:
+    creationTimestamp: 2017-03-28T09:00:38Z
+    labels:
+      service: mysql
+    name: mysql
+    namespace: default
+    resourceVersion: "13161"
+    selfLink: /api/v1/namespaces/default/services/mysql
+    uid: 03701f53-1395-11e7-8721-42010a840ff8
+  spec:
+    clusterIP: 10.175.245.161
+    ports:
+    - name: "3306"
+      port: 3306
+      protocol: TCP
+      targetPort: 3306
+    selector:
+      service: mysql
+    sessionAffinity: None
+    type: ClusterIP
+  status:
+    loadBalancer: {}
+- apiVersion: v1
+  kind: Service
+  metadata:
+    creationTimestamp: 2017-03-28T11:27:40Z
+    labels:
+      service: ng-client
+    name: ng-client
+    namespace: default
+    resourceVersion: "23101"
+    selfLink: /api/v1/namespaces/default/services/ng-client
+    uid: 8d797733-13a9-11e7-8721-42010a840ff8
+  spec:
+    clusterIP: None
+    ports:
+    - name: headless
+      port: 55555
+      protocol: TCP
+      targetPort: 55555
+    selector:
+      service: ng-client
+    sessionAffinity: None
+    type: ClusterIP
+  status:
+    loadBalancer: {}
+- apiVersion: v1
+  kind: Service
+  metadata:
+    creationTimestamp: 2017-03-28T11:28:01Z
+    labels:
+      service: ng-server
+    name: ng-server
+    namespace: default
+    resourceVersion: "23130"
+    selfLink: /api/v1/namespaces/default/services/ng-server
+    uid: 9a157bca-13a9-11e7-8721-42010a840ff8
+  spec:
+    clusterIP: None
+    ports:
+    - name: headless
+      port: 55555
+      protocol: TCP
+      targetPort: 55555
+    selector:
+      service: ng-server
+    sessionAffinity: None
+    type: ClusterIP
+  status:
+    loadBalancer: {}
+- apiVersion: v1
+  kind: Service
+  metadata:
+    creationTimestamp: 2017-03-28T09:00:54Z
+    labels:
+      service: nginx
+    name: nginx
+    namespace: default
+    resourceVersion: "13181"
+    selfLink: /api/v1/namespaces/default/services/nginx
+    uid: 0ccb4da1-1395-11e7-8721-42010a840ff8
+  spec:
+    clusterIP: 10.175.252.28
+    ports:
+    - name: "80"
+      port: 80
+      protocol: TCP
+      targetPort: 80
+    selector:
+      service: nginx
+    sessionAffinity: None
+    type: ClusterIP
+  status:
+    loadBalancer: {}
+kind: List
+metadata: {}
+resourceVersion: ""
+selfLink: ""

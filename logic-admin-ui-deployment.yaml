@@ -1,0 +1,20 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  name: logic-admin-ui
+spec:
+  replicas: 1
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        service: logic-admin-ui
+    spec:
+      containers:
+      - image: eu.gcr.io/anakatech/admin-client:latest
+        name: logic-admin-ui
+        resources: {}
+      restartPolicy: Always
+status: {}

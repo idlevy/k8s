@@ -1,0 +1,140 @@
+version: "2"
+services:
+  nginx:
+    depends_on:
+      - logic-processing
+      - logic-player
+      - logic-game
+      - ng-server
+      - ng-client
+      - logic-admin
+      - logic-admin-ui
+    restart: always
+    image: nginx:alpine
+    ports:
+      - "80:80"
+    volumes:
+      -  $PWD/nginx-conf:/etc/nginx/conf.d
+
+  mysql:
+    restart: always
+    image: mysql
+#    healthcheck:  
+#      test: ["CMD", "/etc/init.d/mysql", "status"]
+#      interval: 10s
+#      timeout: 10s
+#      retries: 10
+    volumes:
+      - $PWD/sql-init:/docker-entrypoint-initdb.d
+      - $PWD/sql-persist:/var/lib/mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=password
+    ports:
+      - "3306:3306"
+
+  logic-processing: 
+#    depends_on: 
+#      mysql:
+#        condition: service_healthy
+    image: eu.gcr.io/anakatech/logic-processing:release-0.0.3-114
+    environment:
+      - NG_MYSQL_URL=jdbc:mysql://mysql:3306
+      - NG_MYSQL_USER_NAME=root
+      - NG_MYSQL_PASSWORD=password
+
+  activemqurl:
+    image: webcenter/activemq:5.14.3
+#    healthcheck:  
+#      test: ["CMD", "curl", "-f", "http://activemqurl:61616"]
+#      interval: 10s
+#      timeout: 10s
+#      retries: 10
+    ports:
+      - "61616:61616"
+      # - "8161:8161"
+      # - "61613:61613"
+      # - "5672:5672"
+    environment:
+      - ACTIVEMQ_ADMIN_PASSWORD=""
+      - ACTIVEMQ_ADMIN_LOGIN=""
+  
+  logic-player:
+#    depends_on:
+#      activemqurl:
+#        condition: service_healthy
+#      logic-processing:
+#        condition: service_started
+    image: eu.gcr.io/anakatech/logic-player:release-0.0.3-684
+#    healthcheck:  
+#      test: ["CMD", "curl", "localhost:8080"]
+#      interval: 5s
+#      timeout: 10s
+#      retries: 10
+    environment:
+      - NG_PROCCESING_URL=http://logic-processing:8080/processing
+      - NG_MYSQL_URL=jdbc:mysql://mysql:3306
+      - NG_MYSQL_USER_NAME=root
+      - NG_MYSQL_PASSWORD=password
+      - NG_ACTIVEMQ_URL=failover:(tcp://activemqurl:61616)
+    ports:
+      - "8083:8080"
+
+  logic-game:
+#    depends_on:
+#      mysql:
+#        condition: service_healthy
+    image: eu.gcr.io/anakatech/logic-game:release-3.0.0-144
+    environment:
+      - NG_MYSQL_URL=jdbc:mysql://mysql:3306
+      - NG_MYSQL_USER_NAME=root
+      - NG_MYSQL_PASSWORD=password
+      - NG_ACTIVEMQ_URL=failover:(tcp://activemqurl:61616)
+      
+  ng-server:
+    depends_on:
+#      - activemqurl
+      - logic-player
+#      - logic-game
+    image: eu.gcr.io/anakatech/ng-server:1128
+    environment:
+      - NG_ACTIVEMQ_AMQP_URL=amqp://admin:admin@activemqurl:61616
+      - NG_MYSQL_URL=jdbc:mysql://mysql:3306
+      - NG_MYSQL_USER_NAME=root
+      - NG_MYSQL_PASSWORD=password
+      - NG_PLAYER_URL=http://logic-player:8080
+      - GS_API_URL=http://www.winomania.localhost/gs
+      - GS_BRAND_ID=7
+      - GS_CUSTOMER_ID=100
+      - GS_LEANDER_API_URL=https://assets.elf.leandergames.com/launcher/GameManager.php
+      - GS_LEANDER_PROVIDER_ID=1
+      - GS_LEANDER_SITE_ID=netomediang
+      - GS_LOBBY_URL=http://www.winomania.localhost
+      - GS_PROVIDER_ID=0
+      - GS_SERVER_URL=http://logic-game:8080
+
+  ng-client:
+    depends_on:
+      - logic-game
+      - logic-player
+    restart: always
+    image: eu.gcr.io/anakatech/ng-client:3254
+    environment:
+      - NODE_ENV=QA
+
+  logic-admin-ui:
+    image: eu.gcr.io/anakatech/admin-client:latest
+      
+  logic-admin:
+#    depends_on:
+#      activemqurl:
+#        condition: service_healthy
+#      logic-player:
+#        condition: service_healthy
+    image: eu.gcr.io/anakatech/logic-admin:release-0.0.3-291
+    environment:
+      - NG_MYSQL_URL=jdbc:mysql://mysql:3306
+      - NG_MYSQL_USER_NAME=root
+      - NG_MYSQL_PASSWORD=password
+      - NG_ACTIVEMQ_URL=failover:(tcp://activemqurl:61616)
+      - NG_PROCCESING_URL=http://logic-processing:8080/processing
+        
