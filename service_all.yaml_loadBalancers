@@ -17,10 +17,11 @@ items:
     selector:
       service: activemq
     sessionAffinity: None
-    type: NodePort
+    type: LoadBalancer
 - apiVersion: v1
   kind: Service
   metadata:
+    creationTimestamp: 2017-03-28T05:45:47Z
     labels:
       component: apiserver
       provider: kubernetes
@@ -108,7 +109,7 @@ items:
     name: logic-player
     namespace: default
   spec:
-    clusterIP: 
+    clusterIP: 10.175.254.193
     ports:
     - name: "8083"
       port: 8083
@@ -157,7 +158,7 @@ items:
     selector:
       service: mysql
     sessionAffinity: None
-    type: NodePort
+    type: ClusterIP
   status:
     loadBalancer: {}
 - apiVersion: v1
@@ -208,7 +209,7 @@ items:
     name: nginx
     namespace: default
   spec:
-    clusterIP: 
+    clusterIP: 10.175.252.28
     ports:
     - name: "80"
       port: 80
@@ -217,7 +218,7 @@ items:
     selector:
       service: nginx
     sessionAffinity: None
-    type: NodePort
+    type: LoadBalancer 
   status:
     loadBalancer: {}
 kind: List

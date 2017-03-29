@@ -288,7 +288,7 @@ items:
         - env:
           - name: MYSQL_ROOT_PASSWORD
             value: password
-          image: mysql
+          image: eu.gcr.io/anakatech/mysql-qa:1.0.0
           imagePullPolicy: Always
           name: mysql
           ports:
@@ -296,22 +296,6 @@ items:
             protocol: TCP
           resources: {}
           terminationMessagePath: /dev/termination-log
-          volumeMounts:
-          - mountPath: /docker-entrypoint-initdb.d
-            name: mysql-claim0
-          - mountPath: /var/lib/mysql
-            name: mysql-claim1
-        dnsPolicy: ClusterFirst
-        restartPolicy: Always
-        securityContext: {}
-        terminationGracePeriodSeconds: 30
-        volumes:
-        - name: mysql-claim0
-          persistentVolumeClaim:
-            claimName: mysql-claim0
-        - name: mysql-claim1
-          persistentVolumeClaim:
-            claimName: mysql-claim1
 - apiVersion: extensions/v1beta1
   kind: Deployment
   metadata:
@@ -351,6 +335,28 @@ items:
         restartPolicy: Always
         securityContext: {}
         terminationGracePeriodSeconds: 30
+- apiVersion: extensions/v1beta1
+  kind: Deployment
+  metadata:
+    creationTimestamp: null
+    name: nginx
+  spec:
+    replicas: 1
+    strategy:
+      type: Recreate
+    template:
+      metadata:
+        creationTimestamp: null
+        labels:
+          service: nginx
+      spec:
+        containers:
+        - image: nginx:alpine
+          name: nginx
+          ports:
+          - containerPort: 80
+          resources: {}
+  status: {}
 kind: List
 metadata: {}
 resourceVersion: ""
