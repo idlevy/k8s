@@ -1,0 +1,28 @@
+// jengkins file for qa-cluster-gdm
+node {
+  checkout scm
+
+  stage('Prepare Environment') {
+    sh "gcloud components install kubectl"
+    sh "echo ${GCLOUD_SERVICE_KEY} | base64 --decode -i > ./gcloud-service-key.json"
+    sh "gcloud auth activate-service-account --key-file ./gcloud-service-key.json"
+    sh "gcloud config set project ${PROJECT_NAME}"
+    sh "gcloud config set compute/zone ${ZONE}"
+// //   sh "gcloud --quiet container clusters get-credentials ${CLUSTER_NAME}"
+  }
+
+  stage('Deploy to GKE') {
+    sh 'sed -i "s/<your-name>/$YOUR_NAME/g" ./qa-gdm/cluster.yaml'
+    sh 'sed -i "s/<machineType>/$Machine_type/g" ./qa-gdm/cluster.yaml' //default should be n1-standard-1 but its not working. so prefferd bigger one n1-standard-8
+//    force_replacement = input message: 'Force replacement?', parameters: [[$class: 'BooleanParameterDefinition', defaultValue: false, description: '', name: 'Force replacement?']]
+//    if (force_replacement == true) {
+//      sh "kubectl replace -f ./ng-admin/logic-admin.yml"
+//    } else {
+      sh "gcloud deployment-manager deployments create qa_cluster1  --config cluster.yaml"
+//    }
+  }
+
+  stage('Cleanup') {
+    deleteDir()
+  }
+}
