@@ -1,0 +1,14 @@
+imports:
+- path: cluster.jinja
+
+resources:
+- name: <your-name>
+  type: cluster.jinja
+  properties:
+    numNodes: 1
+    zone: <zone>
+    username: admin
+    password: admin
+    network: qa 
+    subnetwork: qa-eu-west
+    machineType: n1-standard-8
